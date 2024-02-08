@@ -4,3 +4,5 @@
 # Ignore all .pyc files
 *.pyc
 
+# Ignore JetBrains IDE files
+.idea
