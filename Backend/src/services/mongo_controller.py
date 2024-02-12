@@ -69,6 +69,13 @@ class Panel(MongoDocument):
             "totalYieldW": self.totalYieldW,
         }
     
+    def set_inactive(self):
+        """
+        Sets the curYieldW value to 0 indicating that the panel is inactive.
+        """
+        self.curYieldW = 0
+        self.save()
+    
     def update_values(self, data):
         """
         Updates the document with the given data.
@@ -80,7 +87,6 @@ class Panel(MongoDocument):
         self.dailyYieldW = data['dayYieldW']
         self.totalYieldW = data['totalYieldW']
 
-        #check if the dailyYieldW is already in the list if not append. if update the value
         updated = False
         for dailyYieldW in self.dailyYieldsW:
             if dailyYieldW['date'] == datetime.now().strftime('%Y-%m-%d'):
@@ -105,7 +111,12 @@ class Panel(MongoDocument):
             curYieldW=document.get('curYieldW'),
             dailyYieldW=document.get('dailyYieldW'),
             totalYieldW=document.get('totalYieldW'),
-            dailyYieldsW=document.get('dailyYieldsW', [])
+            dailyYieldsW=document.get('dailyYieldsW', [
+                {
+                    "date": datetime.now().strftime('%Y-%m-%d'),
+                    "dayYieldW": document.get('dailyYieldW')
+                }
+            ])
         )
 
 
