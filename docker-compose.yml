@@ -4,6 +4,7 @@ services:
   backend:
     build:
       context: ./Backend
+    restart: always
     environment:
       - FLASK_APP_PORT=8000
     ports:
@@ -14,16 +15,19 @@ services:
   frontend:
     build:
       context: ./Frontend
+    restart: always
     ports:
       - "4200:4200"
 
   mongodb:
     image: mongo
+    restart: always
     ports:
       - "27017:27017"
 
   mongo-express:
     image: mongo-express
+    restart: always
     ports:
       - "8081:8081"
     environment:
