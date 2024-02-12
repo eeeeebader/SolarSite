@@ -36,6 +36,14 @@ class MongoDocument:
         """
         document = cls.get_collection().find_one({'_id': ObjectId(panel_id)})  # Find the document by its ID
         return cls.from_document(document)  # Convert the document to a Panel instance
+    
+    @classmethod
+    def get_panel_by_serial_number(cls, serial_number):
+        """
+        Retrieves a panel document by its serial number from the database and returns it as a Panel instance.
+        """
+        document = cls.get_collection().find_one({'serial_number': serial_number})
+        return cls.from_document(document)
 
 class Panel(MongoDocument):
     collection_name = 'panels'
@@ -52,16 +60,16 @@ class Panel(MongoDocument):
         """
         Saves the document to MongoDB.
         """
-        doc = self.to_dict()
+        doc = self.to_dict(True)
         result = self.get_collection().update_one({'_id': self._id}, {'$set': doc}, upsert=True)
         return result
 
-    def to_dict(self):
+    def to_dict(self, include_object_id=False):
         """
         Converts the object to a dictionary suitable for MongoDB.
         """
         return {
-            "_id": str(self._id),
+            "_id": self._id if include_object_id else str(self._id),
             "serial_number": self.serial_number,
             "curYieldW": self.curYieldW,
             "dailyYieldW": self.dailyYieldW,
