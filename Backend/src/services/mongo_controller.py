@@ -1,6 +1,6 @@
 from pymongo import MongoClient, collection
 from bson import ObjectId
-from scraper import Scraper
+from services.scraper import Scraper
 
 from datetime import datetime
 
@@ -19,6 +19,23 @@ class MongoDocument:
         if not cls.collection_name:
             raise ValueError("collection_name is not set")
         return cls.db[cls.collection_name]
+        
+    @classmethod
+    def get_all_panels(cls):
+        """
+        Retrieves all panel documents from the database and returns them as a list of Panel instances.
+        """
+        documents = cls.get_collection().find()  # Find all documents in the collection
+        panels = [cls.from_document(doc) for doc in documents]  # Convert each document to a Panel instance
+        return panels
+    
+    @classmethod
+    def get_panel_by_id(cls, panel_id):
+        """
+        Retrieves a panel document by its ID from the database and returns it as a Panel instance.
+        """
+        document = cls.get_collection().find_one({'_id': ObjectId(panel_id)})  # Find the document by its ID
+        return cls.from_document(document)  # Convert the document to a Panel instance
 
 class Panel(MongoDocument):
     collection_name = 'panels'
@@ -44,7 +61,7 @@ class Panel(MongoDocument):
         Converts the object to a dictionary suitable for MongoDB.
         """
         return {
-            "_id": self._id,
+            "_id": str(self._id),
             "serial_number": self.serial_number,
             "curYieldW": self.curYieldW,
             "dailyYieldW": self.dailyYieldW,
