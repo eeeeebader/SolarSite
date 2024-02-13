@@ -106,14 +106,14 @@ class Panel(MongoDocument):
         if not updated:
             self.dailyYieldsW.append({
                 "date": datetime.now().strftime('%Y-%m-%d'),
-                "dayYieldW": data['dailyYieldW']
+                "yield": data['dailyYieldW']
             })
             
             self.todaysYieldsW=[]
             
         self.todaysYieldsW.append({
                 "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                "curYieldW": self.curYieldW
+                "yield": self.curYieldW
             })
         
         self.save()
