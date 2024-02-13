@@ -88,23 +88,21 @@ class Panel(MongoDocument):
         """
         Updates the document with the given data.
         """
-        print(data)
-        print("test")
         self.serial_number = data['serial_number']
-        self.curYieldW = data['currentW']
-        self.dailyYieldW = data['dayYieldW']
+        self.curYieldW = data['curYieldW']
+        self.dailyYieldW = data['dailyYieldW']
         self.totalYieldW = data['totalYieldW']
 
         updated = False
         for dailyYieldW in self.dailyYieldsW:
             if dailyYieldW['date'] == datetime.now().strftime('%Y-%m-%d'):
-                dailyYieldW['dayYieldW'] = data['dayYieldW']
+                dailyYieldW['dayYieldW'] = data['dailyYieldW']
                 updated = True
             
         if not updated:
             self.dailyYieldsW.append({
                 "date": datetime.now().strftime('%Y-%m-%d'),
-                "dayYieldW": data['dayYieldW']
+                "dayYieldW": data['dailyYieldW']
             })
         
         self.save()
