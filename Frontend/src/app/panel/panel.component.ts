@@ -22,7 +22,6 @@ export class PanelComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.panelsService.getPanels().subscribe((panels:any) => {
       this.panels = panels;
-      console.log(panels);
     });
   }
 
@@ -36,7 +35,6 @@ export class PanelComponent implements OnInit, AfterViewInit {
       this.activatedPanel = panel;
       this.clearCavnas();
       this.drawYields();
-      console.log(panel);
     });
   }
 
