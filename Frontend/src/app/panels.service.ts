@@ -8,12 +8,12 @@ import { Panel } from './panel.interface';
 })
 
 export class PanelsService {
-  private baseUrl = 'http://localhost:8000/api';
+  private endpoint = process.env["BACKEND_API_URL"] || 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) {}
 
   getPanels(): Observable<Panel> {
     //console.log(this.http.get<Panel>(`${this.baseUrl}/panels`));
-    return this.http.get<Panel>(`${this.baseUrl}/panels`);
+    return this.http.get<Panel>(`${this.endpoint}/panels`);
   }
 }
