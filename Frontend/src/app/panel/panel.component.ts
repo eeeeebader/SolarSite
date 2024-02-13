@@ -28,7 +28,6 @@ export class PanelComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.drawCanvas();
-    this.drawAxes();
   }
 
   openPanel(id: string): void {
@@ -46,7 +45,6 @@ export class PanelComponent implements OnInit, AfterViewInit {
     if (!ctx) return;
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    this.drawCanvas();
     this.drawAxes();
   }
 
@@ -62,45 +60,62 @@ export class PanelComponent implements OnInit, AfterViewInit {
     let ctx = this.ctx;
     if (!ctx) return;
 
+    ctx.strokeStyle = 'gray';
+    ctx.lineWidth = 1;
+    ctx.fillStyle = 'black'; // For the text color
+    ctx.font = '10px Arial'; // Set the font for the Y-axis labels
+
     const width = ctx.canvas.width;
     const height = ctx.canvas.height;
+    const axisOffsetX = 20; // Offset the X axis 20 pixels to the right
+    const labelFrequencyY = 50; // Distance between labels on the Y axis
 
-    // Draw X axis
-    ctx.beginPath();
-    ctx.moveTo(0, height - 1); // Start at the bottom of the canvas
-    ctx.lineTo(width, height - 1); // Draw to the right
-    ctx.stroke();
-
-    // Draw Y axis
-    ctx.beginPath();
-    ctx.moveTo(1, 0); // Start at the top of the canvas
-    ctx.lineTo(1, height); // Draw downwards
-    ctx.stroke();
-
-    // Draw small lines every 5 pixels on the axes
-    for (let i = 0; i < width; i += 5) {
+    for (let j = 0; j < height; j += 25) {
       ctx.beginPath();
-      ctx.moveTo(i, height - 1);
-      ctx.lineTo(i, height - 6); // Small line on the X axis
+      ctx.moveTo(axisOffsetX, j);
+      ctx.lineTo(axisOffsetX + width - axisOffsetX, j); // Small line on the Y axis
       ctx.stroke();
-    }
 
-    for (let j = 0; j < height; j += 5) {
-      ctx.beginPath();
-      ctx.moveTo(1, j);
-      ctx.lineTo(6, j); // Small line on the Y axis
-      ctx.stroke();
+      // Draw Y-axis labels every 45 pixels
+      if (j % labelFrequencyY === 0) {
+        ctx.fillText(`${height - j}`, 0, j); // Adjust text position as needed
+      }
     }
   }
+
 
   drawYields(): void {
     let ctx = this.ctx;
     if (!ctx == null) return;
 
-    let offsetX = 0;
+    let offsetX = 20;
     const circleRadius = 3; // Adjust the circle radius as needed
 
-    this.activatedPanel?.todaysYieldsW?.forEach((yieldEntry, index) => {
+    if (this.activatedPanel?.todaysYieldsW?.length) {
+      if(!ctx) return;
+
+      // define the color to be #aba0fa and the line thinckness to be 3
+      ctx.strokeStyle = '#aba0fa';
+      ctx.lineWidth = 3;
+
+      let offsetX = 20;
+      let step = ctx.canvas.width / this.activatedPanel.todaysYieldsW.length;
+
+      ctx.beginPath();
+      for(let i = 0; i < this.activatedPanel.todaysYieldsW.length - 1; i++) {
+        const x1 = 5 + step * i + offsetX;
+        const y1 = ctx.canvas.height - this.activatedPanel.todaysYieldsW[i].yield;
+        const x2 = 5 + step * (i + 1) + offsetX;
+        const y2 = ctx.canvas.height - this.activatedPanel.todaysYieldsW[i + 1].yield;
+
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+      }
+      ctx.stroke();
+
+    }
+
+    /* this.activatedPanel?.todaysYieldsW?.forEach((yieldEntry, index) => {
       if(!ctx) return;
 
       const x = 5 + offsetX; // Start at 5 pixels and move 5 pixels to the right for each entry
@@ -112,23 +127,6 @@ export class PanelComponent implements OnInit, AfterViewInit {
       ctx.fill();
 
       offsetX += 15; // Move to the right for the next circle
-    });
-
-    if (this.activatedPanel?.todaysYieldsW?.length) {
-      if(!ctx) return;
-
-      ctx.beginPath();
-      for(let i = 0; i < this.activatedPanel.todaysYieldsW.length - 1; i++) {
-        const x1 = 5 + 15 * i;
-        const y1 = ctx.canvas.height - this.activatedPanel.todaysYieldsW[i].yield;
-        const x2 = 5 + 15 * (i + 1);
-        const y2 = ctx.canvas.height - this.activatedPanel.todaysYieldsW[i + 1].yield;
-
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-      }
-      ctx.stroke();
-
-    }
+    }); */
   }
 }
