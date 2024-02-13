@@ -17,7 +17,8 @@ export class PanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.panelsService.getPanels().subscribe((panels:any) => {
-      this.panel = panels.panels;
+      this.panel = panels;
+      console.log(panels);
     });
   }
 }

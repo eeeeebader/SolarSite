@@ -1,7 +1,6 @@
 export interface Panel {
-  currentW: number;
-  dayYieldW: number;
-  id: number;
-  name: string;
+  curYieldW: number;
+  dailyYieldW: number;
+  serial_number: number;
   totalYieldW: number;
 }

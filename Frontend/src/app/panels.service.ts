@@ -12,7 +12,8 @@ export class PanelsService {
 
   constructor(private http: HttpClient) {}
 
-  getPanels(): Observable<Panel[]> {
-    return this.http.get<Panel[]>(`${this.baseUrl}/panels`);
+  getPanels(): Observable<Panel> {
+    //console.log(this.http.get<Panel>(`${this.baseUrl}/panels`));
+    return this.http.get<Panel>(`${this.baseUrl}/panels`);
   }
 }
