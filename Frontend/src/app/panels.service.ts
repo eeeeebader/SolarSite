@@ -17,7 +17,7 @@ export class PanelsService {
     return this.http.get<Panel>(`${this.endpoint}/panels`);
   }
 
-  getPanle(id: string): Observable<Panel> {
+  getPanel(id: string): Observable<Panel> {
     return this.http.get<Panel>(`${this.endpoint}/panels/${id}`);
   }
 }
