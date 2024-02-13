@@ -60,9 +60,9 @@ export class PanelComponent implements OnInit, AfterViewInit {
     let ctx = this.ctx;
     if (!ctx) return;
 
-    ctx.strokeStyle = 'gray';
+    ctx.strokeStyle = '#c9c9c9';
     ctx.lineWidth = 1;
-    ctx.fillStyle = 'black'; // For the text color
+    ctx.fillStyle = '#616161'; // For the text color
     ctx.font = '10px Arial'; // Set the font for the Y-axis labels
 
     const width = ctx.canvas.width;
@@ -78,7 +78,8 @@ export class PanelComponent implements OnInit, AfterViewInit {
 
       // Draw Y-axis labels every 45 pixels
       if (j % labelFrequencyY === 0) {
-        ctx.fillText(`${height - j}`, 0, j); // Adjust text position as needed
+        if (j == 0) continue;
+        ctx.fillText(`${height - j}`, 0, j + 3); // Adjust text position as needed
       }
     }
   }
@@ -99,7 +100,7 @@ export class PanelComponent implements OnInit, AfterViewInit {
       ctx.lineWidth = 3;
 
       let offsetX = 20;
-      let step = ctx.canvas.width / this.activatedPanel.todaysYieldsW.length;
+      let step = ctx.canvas.width / (this.activatedPanel.todaysYieldsW.length - 1);
 
       ctx.beginPath();
       for(let i = 0; i < this.activatedPanel.todaysYieldsW.length - 1; i++) {
