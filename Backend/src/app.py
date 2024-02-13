@@ -10,6 +10,8 @@ from services.scraper import Scraper
 port = int(os.environ.get("FLASK_APP_PORT", 8000))
 app = Flask(__name__)
 
+PANEL_UPDATE_INTERVAL = os.environ.get('PANEL_UPDATE_INTERVAL_SECONDS', 300)
+
 @app.route('/api/panels/<panel_id>', methods=['GET'])
 def get_panel_data(panel_id):
     from_date_str = request.args.get('from_date', '') 
@@ -56,7 +58,7 @@ def run_update_scheduler():
     print("Panel update scheduler started.")
 
 def update_panels(scheduler):
-    scheduler.enter(1200, 1, update_panels, (scheduler,))
+    scheduler.enter(PANEL_UPDATE_INTERVAL, 1, update_panels, (scheduler,))
     panels = Scraper.get_all()
 
     serial_numbers_db = [panel.serial_number for panel in Panel.get_all_panels()]
