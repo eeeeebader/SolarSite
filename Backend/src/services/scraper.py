@@ -6,7 +6,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 class Scraper:
-    __urls = ["http://192.168.178.193/status.html","http://192.admin168.178.112/status.html","http://192.168.178.138/status.html"]
+    __urls = ["http://192.168.178.193/status.html","http://192.168.178.112/status.html","http://192.168.178.138/status.html"]
 
     def __fetch(url: str, username: str, password: str):
         response = requests.get(url, auth=HTTPBasicAuth(username, password))
