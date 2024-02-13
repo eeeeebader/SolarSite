@@ -14,10 +14,12 @@ export class PanelsService {
   constructor(private http: HttpClient) {}
 
   getPanels(): Observable<Panel> {
-    return this.http.get<Panel>(`${this.endpoint}/panels`);
+    const url = this.endpoint + '/panels';
+    return this.http.get<Panel>(url);
   }
 
   getPanel(id: string): Observable<Panel> {
-    return this.http.get<Panel>(`${this.endpoint}/panels/${id}`);
+    const url = this.endpoint + '/panels/' + id;
+    return this.http.get<Panel>(url);
   }
 }
