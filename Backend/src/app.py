@@ -1,5 +1,7 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
 from datetime import datetime
 import sched, time
 from threading import Thread
@@ -9,6 +11,7 @@ from services.scraper import Scraper
 
 port = int(os.environ.get("FLASK_APP_PORT", 8000))
 app = Flask(__name__)
+CORS(app, support_credentials=True)
 
 PANEL_UPDATE_INTERVAL = int(os.environ.get('PANEL_UPDATE_INTERVAL_SECONDS', 300))
 DEBUG_FLAG = os.environ.get('DEBUG', 'false').lower() == 'true'
