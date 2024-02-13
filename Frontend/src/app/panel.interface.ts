@@ -1,4 +1,5 @@
 export interface Panel {
+  _id: string;
   curYieldW: number;
   dailyYieldW: number;
   serial_number: number;

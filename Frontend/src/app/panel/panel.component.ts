@@ -11,14 +11,20 @@ import {CommonModule} from "@angular/common";
   styleUrl: './panel.component.scss'
 })
 export class PanelComponent implements OnInit {
-  panel: Panel[] = [];
+  public panels: Panel[] = [];
 
   constructor(private panelsService: PanelsService) {}
 
   ngOnInit(): void {
     this.panelsService.getPanels().subscribe((panels:any) => {
-      this.panel = panels;
+      this.panels = panels;
       console.log(panels);
+    });
+  }
+
+  openPanel(id: string): void {
+    this.panelsService.getPanel(id).subscribe((panel:any) => {
+      console.log(panel);
     });
   }
 }

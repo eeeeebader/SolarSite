@@ -7,15 +7,14 @@
       <th>Current</th>
       <th>Today</th>
       <th>Total</th>
-      <th>Name</th>
     </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let smth of panel">
-        <td>{{ smth.serial_number }}</td>
-        <td>{{ smth.curYieldW }}</td>
-        <td>{{ smth.dailyYieldW }}</td>
-        <td>{{ smth.totalYieldW }}</td>
+      <tr *ngFor="let panel of panels"  (click)="openPanel(panel._id)">
+        <td>{{ panel.serial_number }}</td>
+        <td>{{ panel.curYieldW }}</td>
+        <td>{{ panel.dailyYieldW }}</td>
+        <td>{{ panel.totalYieldW }}</td>
       </tr>
     </tbody>
   </table>
