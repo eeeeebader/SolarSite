@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       - FLASK_APP_PORT=8000
-      - MONGO_URI=mongodb:27017 
+      - MONGO_URL=mongodb:27017 
     ports:
       - 8000:8000
     depends_on:
