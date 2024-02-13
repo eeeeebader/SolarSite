@@ -60,7 +60,7 @@ def update_panels(scheduler):
     panels = Scraper.get_all()
 
     serial_numbers_db = [panel.serial_number for panel in Panel.get_all_panels()]
-    serial_numbers_scraper = [panel.serial_number for panel in panels]
+    serial_numbers_scraper = [panel["serial_number"] for panel in panels]
 
     inactive_serial_numbers = [i for i in serial_numbers_db if i not in serial_numbers_scraper]
 
@@ -71,10 +71,12 @@ def update_panels(scheduler):
     for panel_json in panels:
         panel = Panel.get_collection().find_one({'serial_number': panel_json['serial_number']})
         if panel:
+            panel = Panel.from_document(panel)
             panel.update_values(panel_json)
-        else:
-            panel = Panel.from_document(panel_json)
-            panel.save()
+            continue
+
+        panel = Panel.from_document(panel_json)
+        panel.save()
 
 if __name__ == '__main__':
     update_thread = Thread(target=run_update_scheduler)

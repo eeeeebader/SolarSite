@@ -19,8 +19,8 @@ class Scraper:
     def __insert_elem(ret, serial_number: int = 0, curr: int = 0, day: int = 0, total: int = 0):
             ret.append({
                 'serial_number': serial_number,
-                'currentW': curr,
-                'dayYieldW': day,
+                'curYieldW': curr,
+                'dailyYieldW': day,
                 'totalYieldW': total
             })
 

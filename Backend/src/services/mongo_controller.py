@@ -138,7 +138,7 @@ if __name__ == "__main__":
             panel.update_values(panel_json)
             continue
 
-        panel = Panel(serial_number=panel_json['serial_number'], curYieldW=panel_json['currentW'], dailyYieldW=panel_json['dayYieldW'], totalYieldW=panel_json['totalYieldW'])
+        panel = Panel(serial_number=panel_json['serial_number'], curYieldW=panel_json['curYieldW'], dailyYieldW=panel_json['dailyYieldW'], totalYieldW=panel_json['totalYieldW'])
         panel.save()
 
 
