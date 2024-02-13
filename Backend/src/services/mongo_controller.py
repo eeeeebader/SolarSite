@@ -111,10 +111,10 @@ class Panel(MongoDocument):
             
             self.todaysYieldsW=[]
             
-            self.todaysYieldsW.append({
-                    "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                    "curYieldW": self.curYieldW
-                })
+        self.todaysYieldsW.append({
+                "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                "curYieldW": self.curYieldW
+            })
         
         self.save()
 
