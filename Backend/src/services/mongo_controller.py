@@ -1,3 +1,4 @@
+import os
 from pymongo import MongoClient, collection
 from bson import ObjectId
 from services.scraper import Scraper
@@ -8,7 +9,8 @@ class MongoDocument:
     """
     A base class to represent a MongoDB document.
     """
-    db = MongoClient('mongodb://localhost:27017/').panels
+    mongoUrl = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
+    db = MongoClient(mongoUrl).data
     collection_name = ''
 
     @classmethod
