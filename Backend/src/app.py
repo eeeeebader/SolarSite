@@ -10,7 +10,7 @@ from services.scraper import Scraper
 port = int(os.environ.get("FLASK_APP_PORT", 8000))
 app = Flask(__name__)
 
-PANEL_UPDATE_INTERVAL = os.environ.get('PANEL_UPDATE_INTERVAL_SECONDS', 300)
+PANEL_UPDATE_INTERVAL = int(os.environ.get('PANEL_UPDATE_INTERVAL_SECONDS', 300))
 
 @app.route('/api/panels/<panel_id>', methods=['GET'])
 def get_panel_data(panel_id):
@@ -44,6 +44,10 @@ def panels():
 
     for panel in panles:
         res.append(panel.to_dict())
+
+        # remove the dailyYieldsW and todaysYieldsW from the response
+        res[-1].pop('dailyYieldsW', None)
+        res[-1].pop('todaysYieldsW', None)
 
     return jsonify(res)
 

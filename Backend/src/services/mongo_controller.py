@@ -50,13 +50,14 @@ class MongoDocument:
 class Panel(MongoDocument):
     collection_name = 'panels'
 
-    def __init__(self, serial_number, curYieldW, dailyYieldW, totalYieldW, dailyYieldsW=None, _id=None):
+    def __init__(self, serial_number, curYieldW, dailyYieldW, totalYieldW, dailyYieldsW=None, todaysYieldsW=None, _id=None):
         self._id = _id or ObjectId()
         self.serial_number = serial_number
         self.curYieldW = curYieldW
         self.dailyYieldW = dailyYieldW
         self.dailyYieldsW = dailyYieldsW if dailyYieldsW is not None else []
         self.totalYieldW = totalYieldW
+        self.todaysYieldsW = todaysYieldsW if todaysYieldsW is not None else []
 
     def save(self):
         """
@@ -77,6 +78,7 @@ class Panel(MongoDocument):
             "dailyYieldW": self.dailyYieldW,
             "dailyYieldsW": self.dailyYieldsW,
             "totalYieldW": self.totalYieldW,
+            "todaysYieldsW": self.todaysYieldsW
         }
     
     def set_inactive(self):
@@ -106,6 +108,13 @@ class Panel(MongoDocument):
                 "date": datetime.now().strftime('%Y-%m-%d'),
                 "dayYieldW": data['dailyYieldW']
             })
+            
+            self.todaysYieldsW=[]
+            
+            self.todaysYieldsW.append({
+                    "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    "curYieldW": self.curYieldW
+                })
         
         self.save()
 
@@ -123,6 +132,12 @@ class Panel(MongoDocument):
                 {
                     "date": datetime.now().strftime('%Y-%m-%d'),
                     "dayYieldW": document.get('dailyYieldW')
+                }
+            ]),
+            todaysYieldsW=document.get('todaysYieldsW', [
+                {
+                    "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    "curYieldW": document.get('curYieldW')
                 }
             ])
         )
