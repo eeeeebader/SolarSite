@@ -11,6 +11,7 @@ port = int(os.environ.get("FLASK_APP_PORT", 8000))
 app = Flask(__name__)
 
 PANEL_UPDATE_INTERVAL = int(os.environ.get('PANEL_UPDATE_INTERVAL_SECONDS', 300))
+DEBUG_FLAG = os.environ.get('DEBUG', 'false').lower() == 'true'
 
 @app.route('/api/panels/<panel_id>', methods=['GET'])
 def get_panel_data(panel_id):
@@ -63,7 +64,7 @@ def run_update_scheduler():
 
 def update_panels(scheduler):
     scheduler.enter(PANEL_UPDATE_INTERVAL, 1, update_panels, (scheduler,))
-    panels = Scraper.get_all()
+    panels = Scraper.get_all(DEBUG_FLAG)
 
     serial_numbers_db = [panel.serial_number for panel in Panel.get_all_panels()]
     serial_numbers_scraper = [panel["serial_number"] for panel in panels]
@@ -88,6 +89,6 @@ if __name__ == '__main__':
     update_thread = Thread(target=run_update_scheduler)
     update_thread.start()
 
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=DEBUG_FLAG)
 
 
