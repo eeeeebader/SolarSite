@@ -2,11 +2,11 @@
   position: absolute;
   width: 100%;
   bottom: 0;
-  padding: 0 16px 4vh 16px;
+  padding: 0 16px 3vh 16px;
   
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 15px;
 
   .panel-card {
     border-radius: 10px;
@@ -50,7 +50,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0 16px;
-  margin-bottom: 5vh;
+  margin-bottom: 1vh;
 
   & > div:last-child {
     text-align: right;
@@ -74,5 +74,5 @@
 .weather-icon {
   width: 150px;
   height: auto;
-  margin: 0 auto 3.5vh auto;
+  margin: auto auto;
 }
