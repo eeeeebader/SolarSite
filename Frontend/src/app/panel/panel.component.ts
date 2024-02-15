@@ -15,7 +15,7 @@ export class PanelComponent implements OnInit, AfterViewInit {
   public panels: Panel[] = [];
   public activatedPanel: Panel | null = null;
 
-  private ctx: CanvasRenderingContext2D | null = null;
+  //private ctx: CanvasRenderingContext2D | null = null;
 
   constructor(private panelsService: PanelsService) {}
 
@@ -26,9 +26,10 @@ export class PanelComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.drawCanvas();
+    //this.drawCanvas();
   }
 
+  /*
   openPanel(id: string): void {
     this.panelsService.getPanel(id).subscribe((panel:any) => {
 
@@ -113,6 +114,7 @@ export class PanelComponent implements OnInit, AfterViewInit {
       ctx.stroke();
 
     }
+    */
 
     /* this.activatedPanel?.todaysYieldsW?.forEach((yieldEntry, index) => {
       if(!ctx) return;
@@ -127,5 +129,5 @@ export class PanelComponent implements OnInit, AfterViewInit {
 
       offsetX += 15; // Move to the right for the next circle
     }); */
-  }
+  // }
 }

@@ -1,24 +1,14 @@
 <div class="panel-list">
-  <h2>Panels</h2>
-  <table>
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Current</th>
-      <th>Today</th>
-      <th>Total</th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let panel of panels"  (click)="openPanel(panel._id)">
-        <td>{{ panel.serial_number }}</td>
-        <td>{{ panel.curYieldW }}</td>
-        <td>{{ panel.dailyYieldW }}</td>
-        <td>{{ panel.totalYieldW }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <tr *ngFor="let panel of panels">
+    <td>{{ panel.serial_number }}</td>
+    <td>{{ panel.curYieldW }}</td>
+    <td>{{ panel.dailyYieldW }}</td>
+    <td>{{ panel.totalYieldW }}</td>
+  </tr>
+
+  <!--
   <div>
     <canvas id="yieldCanvas" width="400" height="300"></canvas>
   </div>
+  -->
 </div>
