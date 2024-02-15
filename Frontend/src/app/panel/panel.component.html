@@ -1,4 +1,9 @@
 <div class="panel-list">
+  <object data="../../assets/cloudy.svg" type="" class="weather-icon"></object>
+  <div class="totals">
+    <div><h3>Heute</h3><h2 class="yield daily">{{ sumDaily/1000 | number: '1.0-2' }}<span class="unit"> kW/h</span></h2></div>
+    <div><h3>Gesamt</h3><h2 class="yield total">{{ sumTotal/1000000 | number: '1.0-2' }}<span class="unit"> MW/h</span></h2></div>
+  </div>
   <div class="panel-card" *ngFor="let panel of panels; index as i">
     <div class="panel_info">
       <div><h3>Inverter {{i+1}}</h3><code>{{ panel.serial_number }}</code></div>

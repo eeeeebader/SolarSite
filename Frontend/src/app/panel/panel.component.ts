@@ -13,6 +13,8 @@ import { CommonModule } from "@angular/common";
 export class PanelComponent implements OnInit, AfterViewInit {
 
   public panels: Panel[] = [];
+  public sumDaily: number = 0;
+  public sumTotal: number = 0;
   public activatedPanel: Panel | null = null;
 
   //private ctx: CanvasRenderingContext2D | null = null;
@@ -22,11 +24,29 @@ export class PanelComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.panelsService.getPanels().subscribe((panels:any) => {
       this.panels = panels;
+      this.sumDaily = this.sumUpDaily(panels);
+      this.sumTotal = this.sumUpTotal(panels);
     });
   }
 
   ngAfterViewInit(): void {
     //this.drawCanvas();
+  }
+
+  sumUpDaily(pnls: Panel[]): number {
+    let sum: number = 0;
+    for (let panel of pnls) {
+      sum += panel.dailyYieldW;
+    }
+    return sum;
+  }
+
+  sumUpTotal(pnls: Panel[]): number {
+    let sum: number = 0;
+    for (let panel of pnls) {
+      sum += panel.totalYieldW;
+    }
+    return sum;
   }
 
   /*

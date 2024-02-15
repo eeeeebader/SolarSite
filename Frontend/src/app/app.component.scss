@@ -18,12 +18,24 @@
 
     .circle {
         position: absolute;
-        top: -20px;
-        right: -30px;
-        width: 300px;
-        height: 300px;
         border-radius: 50%;
-        background-color: #ffe500;
+
+        &.cone {
+            top: -20px;
+            right: -30px;
+            width: 300px;
+            height: 300px;
+            background-color: #ffe500;
+        }
+
+        &.ctwo {
+            bottom: 40px;
+            left: -20px;
+            width: 150px;
+            height: 150px;
+            background-color: #ffd900;
+            opacity: 0.3;
+        }
     }
     .blur {
         position: absolute;
