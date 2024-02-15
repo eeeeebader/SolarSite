@@ -1,9 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
 * {
     box-sizing: border-box;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    letter-spacing: 0.7px;
+    color: #969696;
+}
+
+.unit {
+    font-size: 14px;
+    padding-left: 5px;
+    color: #969696;
 }
 
 body {
     margin: 0;
     padding: 0;
+    background-color: #f2f2f2;
+}
+
+h1, h2, h3, h4, p {
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    color: #323232;
+    line-height: normal;
+}
+
+h3 {
+    font-size: 18px;
+    letter-spacing: 0.9px;
+}
+
+h4 {
+    letter-spacing: 0.7px;
 }

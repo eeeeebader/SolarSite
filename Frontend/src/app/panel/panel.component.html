@@ -1,10 +1,14 @@
 <div class="panel-list">
-  <tr *ngFor="let panel of panels">
-    <td>{{ panel.serial_number }}</td>
-    <td>{{ panel.curYieldW }}</td>
-    <td>{{ panel.dailyYieldW }}</td>
-    <td>{{ panel.totalYieldW }}</td>
-  </tr>
+  <div class="panel-card" *ngFor="let panel of panels; index as i">
+    <div class="panel_info">
+      <div><h3>Inverter {{i+1}}</h3><code>{{ panel.serial_number }}</code></div>
+      <div class="yield current"><h2>{{ panel.curYieldW | number: '1.0-2' }}<span class="unit">W</span></h2></div>
+    </div>
+    <div class="panel_info">
+      <div><h4>Heute</h4><h3 class="yield daily">{{ panel.dailyYieldW/1000 | number: '1.0-2' }}<span class="unit"> kW/h</span></h3></div>
+      <div><h4>Gesamt</h4><h3 class="yield total">{{ panel.totalYieldW/1000000 | number: '1.0-2' }}<span class="unit"> MW/h</span></h3></div>
+    </div>
+  </div>
 
   <!--
   <div>

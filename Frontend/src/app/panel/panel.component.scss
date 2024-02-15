@@ -1,0 +1,43 @@
+.panel-list {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 0 20px 70px 20px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  .panel-card {
+    border-radius: 10px;
+    border: 1px solid #F4F4F4;
+    background: rgba(242, 242, 242, 0.50);
+    padding: 16px;
+    
+    &:not(:last-child) {
+      //margin-bottom: 25px;
+    }
+    
+    & > .panel_info:first-child {
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(210,210,210,0.8);
+    }
+
+    .panel_info {
+      display: flex;
+      justify-content: space-between;
+  
+      & > div:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  .yield {
+    &.daily, &.total {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
