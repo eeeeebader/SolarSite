@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
+  production: true,
   backendPath: 'http://localhost:8000/api'
 }
