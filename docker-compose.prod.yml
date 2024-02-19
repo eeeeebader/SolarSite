@@ -2,12 +2,12 @@ version: '3'
 
 services:
   mongodb:
-    image: mongodb-raspberrypi4-unofficial-r7.0.5:latest
+    image: mongodb-raspberrypi4-unofficial-r7.0.4:latest
     restart: always
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
-      - dbdata:/data/dbdat
-      
+      - dbdata:/data/db
+
 volumes:
   dbdata:
