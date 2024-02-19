@@ -18,11 +18,11 @@ services:
     build:
       context: ./Frontend
     restart: always
-    ports:
+    ports:  
       - "4200:4200"
 
   mongodb:
-    image: mongo
+    image: mongodb-raspberrypi4-unofficial-r7.0.5:latest
     restart: always
     ports:
       - "27017:27017"
