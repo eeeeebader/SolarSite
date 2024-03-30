@@ -1,7 +1,9 @@
 from services.mongo_controller import Panel
 from services.scraper import Scraper
 
-def update_panels() -> None:
+import datetime
+
+def update_panels() -> bool:
     panels = Scraper.get_all()
     serial_numbers_db = [panel.serial_number for panel in Panel.get_all_panels()]
     serial_numbers_scraper = [panel["serial_number"] for panel in panels]
@@ -22,5 +24,11 @@ def update_panels() -> None:
         panel = Panel.from_document(panel_json)
         panel.save()
 
+    return len(panels) > 0
+
 if __name__ == "__main__":
-    update_panels()
+    updated = update_panels()
+    if updated:
+        print(f"Updated panels at: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    else:
+        print(f"Update failed at: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
