@@ -23,5 +23,8 @@ RUN cron
 # Expose the port the application will run on
 EXPOSE 8000
 
-# Command to run the Python application
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
 CMD ["python", "app.py"]
