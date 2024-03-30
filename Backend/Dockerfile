@@ -16,15 +16,13 @@ RUN pip install -r requirements.txt
 # Replace src/environments/environment.py with the environment.prod.py 
 RUN mv environments/environment.prod.py environments/environment.py
 
-COPY cronfile /etc/cron.d/cronjob
-RUN chmod 0644 /etc/cron.d/cronjob
-RUN cron
+COPY cronfile /etc/cron.d/crontab
+RUN chmod 0644 /etc/cron.d/crontab
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
 
 # Expose the port the application will run on
 EXPOSE 8000
-
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-
-CMD ["python", "app.py"]
+# Start the cron service
+CMD cron && tail -f /var/log/cron.log & exec python app.py
