@@ -1,6 +1,8 @@
 # Use the official Python image as the base image
 FROM python:3.9
 
+RUN apt-get update && apt-get install -y cron
+
 # Set the working directory inside the container
 WORKDIR /app
 
@@ -12,10 +14,11 @@ COPY ./requirements.txt /app
 RUN pip install -r requirements.txt
 
 # Replace src/environments/environment.py with the environment.prod.py 
-RUN mv src/environments/environment.prod.py src/environments/environment.py
+RUN mv environments/environment.prod.py environments/environment.py
 
-# edit chrontask file to run every 6 minutes the script src/collector.py
-RUN echo "*/6 * * * * root python /app/src/collector.py" >> /etc/crontab
+COPY mycronjob /etc/cron.d/mycronjob
+RUN chmod 0644 /etc/cron.d/mycronjob
+RUN cron
 
 # Expose the port the application will run on
 EXPOSE 8000
