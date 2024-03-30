@@ -16,8 +16,8 @@ RUN pip install -r requirements.txt
 # Replace src/environments/environment.py with the environment.prod.py 
 RUN mv environments/environment.prod.py environments/environment.py
 
-COPY mycronjob /etc/cron.d/mycronjob
-RUN chmod 0644 /etc/cron.d/mycronjob
+COPY cronjob /etc/cron.d/cronjob
+RUN chmod 0644 /etc/cron.d/cronjob
 RUN cron
 
 # Expose the port the application will run on
