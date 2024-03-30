@@ -16,7 +16,7 @@ RUN pip install -r requirements.txt
 # Replace src/environments/environment.py with the environment.prod.py 
 RUN mv environments/environment.prod.py environments/environment.py
 
-COPY cronjob /etc/cron.d/cronjob
+COPY cronfile /etc/cron.d/cronjob
 RUN chmod 0644 /etc/cron.d/cronjob
 RUN cron
 
