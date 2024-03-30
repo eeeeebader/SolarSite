@@ -1,1 +1,1 @@
-*/6 * * * * root python /app/src/collector.py >> /var/log/cron.log 2>&1
+*/6 * * * * root python /app/collector.py >> /var/log/cron.log 2>&1
