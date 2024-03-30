@@ -11,6 +11,12 @@ COPY ./requirements.txt /app
 # Install Python packages from requirements.txt
 RUN pip install -r requirements.txt
 
+# Replace src/environments/environment.py with the environment.prod.py 
+RUN mv src/environments/environment.prod.py src/environments/environment.py
+
+# edit chrontask file to run every 6 minutes the script src/collector.py
+RUN echo "*/6 * * * * root python /app/src/collector.py" >> /etc/crontab
+
 # Expose the port the application will run on
 EXPOSE 8000
 

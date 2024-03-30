@@ -3,13 +3,15 @@ from pymongo import MongoClient, collection
 from bson import ObjectId
 from services.scraper import Scraper
 
+from environments.environment import MONGO_DB_HOST, MONGO_DB_PORT
+
 from datetime import datetime
 
 class MongoDocument:
     """
     A base class to represent a MongoDB document.
     """
-    mongoUrl = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
+    mongoUrl = f"mongodb://{MONGO_DB_HOST}:{MONGO_DB_PORT}"
     db = MongoClient(mongoUrl).data
     collection_name = ''
 
