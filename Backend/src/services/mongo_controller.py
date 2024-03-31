@@ -91,6 +91,9 @@ class Panel(MongoDocument):
         self.save()
     
     def __interpolate_daily_yield(self, data):
+        if(self.totalYieldW > 0):
+            return data['totalYieldW'] - self.totalYieldW
+        
         h_percent = (PANEL_UPDATE_INTERVAL_SECONDS / 100) / 60
         produced = data['curYieldW'] * h_percent
 
