@@ -3,7 +3,7 @@ from pymongo import MongoClient, collection
 from bson import ObjectId
 from services.scraper import Scraper
 
-from environments.environment import MONGO_DB_HOST, MONGO_DB_PORT
+from environments.environment import MONGO_DB_HOST, MONGO_DB_PORT, PANEL_UPDATE_INTERVAL_SECONDS
 
 from datetime import datetime
 
@@ -90,13 +90,18 @@ class Panel(MongoDocument):
         self.curYieldW = 0
         self.save()
     
+    def __interpolate_daily_yield(self, data):
+        h_percent = (PANEL_UPDATE_INTERVAL_SECONDS / 100) / 60
+        produced = data['curYieldW'] * h_percent
+
+        return produced
+
     def update_values(self, data):
         """
         Updates the document with the given data.
         """
         self.serial_number = data['serial_number']
         self.curYieldW = data['curYieldW']
-        self.dailyYieldW = data['dailyYieldW']
         self.totalYieldW = data['totalYieldW']
 
         updated = False
@@ -112,6 +117,9 @@ class Panel(MongoDocument):
             })
             
             self.todaysYieldsW=[]
+            self.dailyYieldW = 0
+        
+        self.dailyYieldW += self.__interpolate_daily_yield(data)
             
         self.todaysYieldsW.append({
                 "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),

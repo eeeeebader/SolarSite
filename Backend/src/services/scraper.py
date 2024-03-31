@@ -68,6 +68,7 @@ class Scraper:
                 continue
 
             serial_number, cur, day, total = Scraper.__parse(res)
+            
             Scraper.__insert_elem(ret, serial_number, cur, day, total)
 
         return ret
