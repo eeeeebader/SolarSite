@@ -34,7 +34,7 @@ class Scraper:
 
         for variable in variable_names:
             # Regex pattern to match the variable
-            pattern = re.compile(rf'{variable} = \"([0-9]*[.]*[0-9]*)\";')
+            pattern = re.compile(rf'{variable} = \"([0-9]*[.]*[0-9]*)\s*\"\s*;')
             for script in script_tags:
                 if script.string:
                     match = pattern.search(script.string)
