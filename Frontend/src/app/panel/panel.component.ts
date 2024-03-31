@@ -19,10 +19,10 @@ export class PanelComponent implements OnInit, AfterViewInit {
 
   //private ctx: CanvasRenderingContext2D | null = null;
 
-  constructor(private panelsService: PanelsService) {}
+  constructor(private panelsService: PanelsService) { }
 
   ngOnInit(): void {
-    this.panelsService.getPanels().subscribe((panels:any) => {
+    this.panelsService.getPanels().subscribe((panels: any) => {
       this.panels = panels;
       this.interpolateDaily();
     });
@@ -33,17 +33,41 @@ export class PanelComponent implements OnInit, AfterViewInit {
   }
 
   calculateTotalDailyYield(yields: YieldsW[]): number {
-    return yields.reduce((acc, curr) => acc + curr.yield, 0);
+    if (yields.length < 2) {
+      return yields.reduce((acc, curr) => acc + curr.yield, 0);
+    }
+
+    let totalYield = 0;
+
+    // Sort by date to ensure correct sequential processing
+    const sortedYields = yields.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    for (let i = 1; i < sortedYields.length; i++) {
+      const previous = sortedYields[i - 1];
+      const current = sortedYields[i];
+
+      const previousDate = new Date(previous.date);
+      const currentDate = new Date(current.date);
+
+      const timeDiffMinutes = (currentDate.getTime() - previousDate.getTime()) / (1000 * 60);
+
+      const yieldDiff = current.yield - previous.yield;
+      const yieldRatePerMinute = yieldDiff / timeDiffMinutes;
+
+      totalYield += yieldDiff;
+    }
+
+    return totalYield;
   }
 
   async interpolateDaily() {
     for (const panel of this.panels) {
       let panelFull: Panel = panel;
-      await this.panelsService.getPanel(panel._id).subscribe((p:any) => {
+      await this.panelsService.getPanel(panel._id).subscribe((p: any) => {
         panelFull = p;
       });
 
-      if(!panelFull) continue;
+      if (!panelFull) continue;
 
       if (panelFull.todaysYieldsW) {
         panel.dailyYieldW = this.calculateTotalDailyYield(panelFull.todaysYieldsW);
@@ -157,18 +181,18 @@ export class PanelComponent implements OnInit, AfterViewInit {
     }
     */
 
-    /* this.activatedPanel?.todaysYieldsW?.forEach((yieldEntry, index) => {
-      if(!ctx) return;
+  /* this.activatedPanel?.todaysYieldsW?.forEach((yieldEntry, index) => {
+    if(!ctx) return;
 
-      const x = 5 + offsetX; // Start at 5 pixels and move 5 pixels to the right for each entry
-      const y = ctx.canvas.height - yieldEntry.yield; // Calculate y position based on the yield value
+    const x = 5 + offsetX; // Start at 5 pixels and move 5 pixels to the right for each entry
+    const y = ctx.canvas.height - yieldEntry.yield; // Calculate y position based on the yield value
 
-      ctx.beginPath();
-      ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
-      ctx.fillStyle = 'black';
-      ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
+    ctx.fillStyle = 'black';
+    ctx.fill();
 
-      offsetX += 15; // Move to the right for the next circle
-    }); */
+    offsetX += 15; // Move to the right for the next circle
+  }); */
   // }
 }
