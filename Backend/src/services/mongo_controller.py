@@ -144,13 +144,13 @@ class Panel(MongoDocument):
             dailyYieldsW=document.get('dailyYieldsW', [
                 {
                     "date": datetime.now().strftime('%Y-%m-%d'),
-                    "dayYieldW": document.get('dailyYieldW')
+                    "yield": document.get('dailyYieldW')
                 }
             ]),
             todaysYieldsW=document.get('todaysYieldsW', [
                 {
                     "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                    "curYieldW": document.get('curYieldW')
+                    "yield": document.get('curYieldW')
                 }
             ])
         )
