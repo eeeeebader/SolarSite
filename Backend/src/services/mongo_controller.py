@@ -103,7 +103,6 @@ class Panel(MongoDocument):
         """
         Updates the document with the given data.
         """
-        self.serial_number = data['serial_number']
         self.curYieldW = data['curYieldW']
         self.totalYieldW = data['totalYieldW']
 
