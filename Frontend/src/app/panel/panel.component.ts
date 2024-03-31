@@ -24,58 +24,13 @@ export class PanelComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.panelsService.getPanels().subscribe((panels: any) => {
       this.panels = panels;
-      this.interpolateDaily();
+      this.sumDaily = this.sumUpDaily(this.panels);
+      this.sumTotal = this.sumUpTotal(this.panels);
     });
   }
 
   ngAfterViewInit(): void {
     //this.drawCanvas();
-  }
-
-  calculateTotalDailyYield(yields: YieldsW[]): number {
-    if (yields.length < 2) {
-      return yields.reduce((acc, curr) => acc + curr.yield, 0);
-    }
-
-    let totalYield = 0;
-
-    // Sort by date to ensure correct sequential processing
-    const sortedYields = yields.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-    for (let i = 1; i < sortedYields.length; i++) {
-      const previous = sortedYields[i - 1];
-      const current = sortedYields[i];
-
-      const previousDate = new Date(previous.date);
-      const currentDate = new Date(current.date);
-
-      const timeDiffMinutes = (currentDate.getTime() - previousDate.getTime()) / (1000 * 60);
-
-      const yieldDiff = current.yield - previous.yield;
-      const yieldRatePerMinute = yieldDiff / timeDiffMinutes;
-
-      totalYield += yieldDiff;
-    }
-
-    return totalYield;
-  }
-
-  async interpolateDaily() {
-    for (const panel of this.panels) {
-      let panelFull: Panel = panel;
-      await this.panelsService.getPanel(panel._id).subscribe((p: any) => {
-        panelFull = p;
-      });
-
-      if (!panelFull) continue;
-
-      if (panelFull.todaysYieldsW) {
-        panel.dailyYieldW = this.calculateTotalDailyYield(panelFull.todaysYieldsW);
-      }
-    }
-
-    this.sumDaily = this.sumUpDaily(this.panels);
-    this.sumTotal = this.sumUpTotal(this.panels);
   }
 
   sumUpDaily(pnls: Panel[]): number {
