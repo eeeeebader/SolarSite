@@ -25,8 +25,6 @@ export class PanelComponent implements OnInit, AfterViewInit {
     this.panelsService.getPanels().subscribe((panels:any) => {
       this.panels = panels;
       this.interpolateDaily();
-      this.sumDaily = this.sumUpDaily(panels);
-      this.sumTotal = this.sumUpTotal(panels);
     });
   }
 
@@ -35,16 +33,23 @@ export class PanelComponent implements OnInit, AfterViewInit {
   }
 
   /* this function does temporal interpolation of the daily yield values, because of an tracking error on the solar panels */
-  interpolateDaily() {
+  async interpolateDaily() {
     for (const panel of this.panels) {
+      let panelFull: Panel = panel;
+      await this.panelsService.getPanel(panel._id).subscribe((p:any) => {
+        panelFull = p;
+      });
+
+      if(!panelFull) continue;
+
       let dailyYieldW: number = 0;
       let totalYieldW: number = 0;
       let lastYield: number = 0;
       let lastTimestamp: number = 0;
 
-      if (panel.todaysYieldsW) {
-        for (let index = 0; index < panel.todaysYieldsW.length; index++) {
-          const yieldEntry = panel.todaysYieldsW[index];
+      if (panelFull.todaysYieldsW) {
+        for (let index = 0; index < panelFull.todaysYieldsW.length; index++) {
+          const yieldEntry = panelFull.todaysYieldsW[index];
           if (index == 0) {
             lastYield = yieldEntry.yield;
             lastTimestamp = Date.parse(yieldEntry.date);
@@ -62,8 +67,10 @@ export class PanelComponent implements OnInit, AfterViewInit {
         }
       }
       panel.dailyYieldW = dailyYieldW;
-      panel.totalYieldW = totalYieldW;
     }
+
+    this.sumDaily = this.sumUpDaily(this.panels);
+    this.sumTotal = this.sumUpTotal(this.panels);
   }
 
   sumUpDaily(pnls: Panel[]): number {
