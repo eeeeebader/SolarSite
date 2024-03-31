@@ -102,7 +102,7 @@ class Panel(MongoDocument):
         updated = False
         for dailyYieldW in self.dailyYieldsW:
             if dailyYieldW['date'] == datetime.now().strftime('%Y-%m-%d'):
-                dailyYieldW['dayYieldW'] = data['dailyYieldW']
+                dailyYieldW['yield'] = data['dailyYieldW']
                 updated = True
             
         if not updated:
