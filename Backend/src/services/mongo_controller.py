@@ -110,13 +110,13 @@ class Panel(MongoDocument):
         updated = False
         for dailyYieldW in self.dailyYieldsW:
             if dailyYieldW['date'] == datetime.now().strftime('%Y-%m-%d'):
-                dailyYieldW['yield'] = data['dailyYieldW']
+                dailyYieldW['yield'] = self.dailyYieldW + self.__interpolate_daily_yield(data)
                 updated = True
             
         if not updated:
             self.dailyYieldsW.append({
                 "date": datetime.now().strftime('%Y-%m-%d'),
-                "yield": data['dailyYieldW']
+                "yield": 0
             })
             
             self.todaysYieldsW=[]
