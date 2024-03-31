@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core'
 import { PanelsService } from '../panels.service'
-import { Panel } from '../panel.interface'
+import { Panel, YieldsW } from '../panel.interface'
 import { CommonModule } from "@angular/common";
 
 @Component({
@@ -32,7 +32,10 @@ export class PanelComponent implements OnInit, AfterViewInit {
     //this.drawCanvas();
   }
 
-  /* this function does temporal interpolation of the daily yield values, because of an tracking error on the solar panels */
+  calculateTotalDailyYield(yields: YieldsW[]): number {
+    return yields.reduce((acc, curr) => acc + curr.yield, 0);
+  }
+
   async interpolateDaily() {
     for (const panel of this.panels) {
       let panelFull: Panel = panel;
@@ -42,31 +45,9 @@ export class PanelComponent implements OnInit, AfterViewInit {
 
       if(!panelFull) continue;
 
-      let dailyYieldW: number = 0;
-      let totalYieldW: number = 0;
-      let lastYield: number = 0;
-      let lastTimestamp: number = 0;
-
       if (panelFull.todaysYieldsW) {
-        for (let index = 0; index < panelFull.todaysYieldsW.length; index++) {
-          const yieldEntry = panelFull.todaysYieldsW[index];
-          if (index == 0) {
-            lastYield = yieldEntry.yield;
-            lastTimestamp = Date.parse(yieldEntry.date);
-            dailyYieldW += yieldEntry.yield;
-            totalYieldW += yieldEntry.yield;
-          } else {
-            let timeDiff = Date.parse(yieldEntry.date) - lastTimestamp;
-            let yieldDiff = yieldEntry.yield - lastYield;
-            let dailyYield = yieldDiff / timeDiff * 1000 * 60 * 60 * 24;
-            dailyYieldW += dailyYield;
-            totalYieldW += yieldEntry.yield;
-            lastYield = yieldEntry.yield;
-            lastTimestamp = Date.parse(yieldEntry.date);
-          }
-        }
+        panel.dailyYieldW = this.calculateTotalDailyYield(panelFull.todaysYieldsW);
       }
-      panel.dailyYieldW = dailyYieldW;
     }
 
     this.sumDaily = this.sumUpDaily(this.panels);
