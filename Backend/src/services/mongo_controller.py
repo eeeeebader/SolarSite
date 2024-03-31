@@ -104,7 +104,6 @@ class Panel(MongoDocument):
         Updates the document with the given data.
         """
         self.curYieldW = data['curYieldW']
-        self.totalYieldW = data['totalYieldW']
 
         updated = False
         for dailyYieldW in self.dailyYieldsW:
@@ -120,8 +119,9 @@ class Panel(MongoDocument):
             
             self.todaysYieldsW=[]
             self.dailyYieldW = 0
-        
+
         self.dailyYieldW += self.__interpolate_daily_yield(data)
+        self.totalYieldW = data['totalYieldW']
             
         self.todaysYieldsW.append({
                 "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
